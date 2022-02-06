@@ -1,0 +1,9 @@
+sudo: required
+services:
+  -  docker
+
+before_install: 
+   - docker build -t sirisrin/docker_react -f Dockerfile.dev .  
+
+script: 
+  -  docker run sirisrin/docker_react  npm run test -- --coverage
