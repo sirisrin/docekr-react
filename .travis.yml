@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
   -  docker
@@ -6,4 +7,16 @@ before_install:
    - docker build -t sirisrin/docker_react -f Dockerfile.dev .  
 
 script: 
-  -  docker run sirisrin/docker_react  npm run test -- --coverage
+  -  docker run -e CI=true sirisrin/docker_react  npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-south-1"
+  app: docker_react
+  env: Dockerreact-env
+  bucket_name: "elasticbeanstalk-ap-south-1-611881373734"
+  bucket_path: "docker_react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  Secret_access_key: $AWS_SECRET_KEY 
